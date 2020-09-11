@@ -82,3 +82,26 @@ app.post('/api/addstudents',(req,res)=>{
     });
     
 });
+
+app.put('/api/editstu/:id',(req,res)=>{
+    const stuId = itStudent.find(element => element.id === parseInt(req.body.id));
+    if(stuId){
+        stuId.fname = req.body.fname;
+        stuId.lname = req.body.lname;
+        stuId.tel = req.body.tel;
+    }else{
+        res.status(404).send('ไม่พบรหัสนักศึกษานี้');
+    }
+    res.send(itStudent);
+});
+
+app.delete('/api/deletestu/:id',(req,res)=>{
+    const stuId = itStudent.find(element => element.id === parseInt(req.params.id));
+    if(stuId){
+        const index = itStudent.indexOf(stuId);
+        itStudent.splice(index,1);
+    }else{
+        res.status(404).send('ไม่พบนักศึกษานี้');
+    }
+    res.send(itStudent);
+});
