@@ -2,22 +2,27 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+
+
 const restaurantsRouter = require('./routes/restaurants');
+const indexRouter = require('./routes/index');
 
 const logger = require('./middleware/logger');
 
 const port = process.env.PORT || 8000;
-
+//view engine setup
+app.set('views',path.join(__dirname,'views'));
+app.set('view engine','ejs');
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname,'public')));
 // Custom middleware
 app.use(logger);
 //Routes
 app.use('/api/restaurants',restaurantsRouter);
-//view engine setup
-app.set('views',path.join(__dirname,'views'));
-app.set('view engine','ejs');
+app.use('/',indexRouter);
+
 
 
 
